@@ -1,0 +1,14 @@
+from BeautifulSoup import bs4
+url = 'http://cornerstone-astrology.com/articles/zodiac_tables.htm'
+res = requests.get(url)
+src_code = res.text
+soup = BeautifulSoup(src_code, "html.parser")
+table = soup.find('table', {"width": '50%'})
+tableBody = table.find('tbody')
+rows = tableBody.find_all('tr')
+astroDict = dict()
+for row in rows:
+    signs = row.find_all('span', {"class":"Sign"}).text.strip()
+    deets = row.find_all('span')[2:8].text.strip()
+    astroDict[signs] = deets
+print(astroDict)
